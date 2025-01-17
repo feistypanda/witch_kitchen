@@ -6,7 +6,7 @@ with (processingInstance) {
 
 // setup
 size(600, 600, P2D);
-frameRate(0);
+frameRate(60);
 
 // this object stores functions that call the processing drawing functions from the processing environment so that these functions can be used in different files
 // it also stores the processing constants
@@ -48,13 +48,42 @@ processing = (() => {
 			return createGraphics(...args);
 		},
 
+		pushMatrix (...args) {
+			return pushMatrix(...args);
+		},
+
+		popMatrix (...args) {
+			return popMatrix(...args);
+		},
+
+		translate (...args) {
+			return translate(...args);
+		},
+
+		rotate (...args) {
+			return rotate(...args);
+		},
+
+		arc (...args) {
+			return arc(...args);
+		},
+
 		constants: PConstants,
 	};
 })();
 
-// let scenes = 0;
+counters.add(new Counter(3, 3));
+counters.add(new Counter(3, 4));
+counters.add(new Counter(4, 3));
+counters.add(new FoodCrate(EyeOfNewt, 5, 3));
+counters.add(new FoodCrate(BlueJayEgg, 5, 4));
+counters.add(new TrashCan(4, 5));
+counters.add(new CuttingBoard(4, 6));
+counters.add(new Burner(5, 6));
 
 draw = function () {
+	
+	[mouse.x, mouse.y] = [mouseX, mouseY];
 
 	deltaTime = 1000/this.__frameRate;
 

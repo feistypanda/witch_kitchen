@@ -7,8 +7,9 @@ let scenes = (() => {
 	let play = {
 		run () {
 			processing.image(images.floor, 0, 0);
-			processing.image(images.counter, 200, 0, 70, 70);
+			counters.run();
 			player.run();
+			foods.run();
 		},
 	};
 
@@ -26,5 +27,3 @@ let scenes = (() => {
 		}
 	}
 })();
-
-console.log("hello");

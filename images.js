@@ -196,6 +196,38 @@ let images = (() => {
 			g.vertex(105, 259);
 			g.endShape();
 
+			g.fill(176, 42, 62);
+			g.noStroke();
+			g.beginShape();
+
+			g.vertex(100, 265);
+			g.vertex(144, 297);
+
+			for (let i = 180 * Math.PI/180; i <= 362 * Math.PI/180; i += 30 * Math.PI/180) {
+			    g.vertex(200 + g.cos(i) * 200/2, 265 + g.sin(i) * (200*2/3 - 40)/2);
+			}
+
+			g.vertex(289, 295);
+			g.vertex(249, 278);
+			g.vertex(199, 272);
+			g.vertex(149, 278);
+			g.vertex(122, 295);
+
+			g.endShape();
+
+			g.fill(122, 32, 45);
+			g.beginShape();
+			g.vertex(122, 295);
+			g.vertex(149, 278);
+			g.vertex(199, 272);
+			g.vertex(225, 275);
+			g.vertex(222, 224);
+			g.vertex(199, 217);
+			g.vertex(150, 223);
+			g.vertex(113, 243);
+			g.vertex(98, 264);
+			g.endShape();
+
 			g.noFill();
 			g.stroke(0);
 			g.beginShape();
@@ -214,7 +246,14 @@ let images = (() => {
 			g.vertex(300, 265);
 			g.endShape();
 
-			// ellipse(200, 265, 200, 200*2/3 -40);
+			g.beginShape();
+			g.vertex(289, 295);
+			g.vertex(249, 278);
+			g.vertex(199, 272);
+			g.vertex(149, 278);
+			g.vertex(122, 295);
+			g.endShape();
+
 			g.beginShape();
 			for (let i = 180 * Math.PI/180; i <= 362 * Math.PI/180; i += 30 * Math.PI/180) {
 			   g.vertex(200 + Math.cos(i) * 200/2, 265 + Math.sin(i) * (200*2/3 - 40)/2);
@@ -347,6 +386,283 @@ let images = (() => {
 			g.triangle(350, 150, 161, 148, 350, 166);
 			g.triangle(350, 250, 184, 264, 350, 266);
 			return g.get(38.5, 38.5, 400 - 74, 400 - 74);
+		},
+		
+		cuttingBoard () {
+
+			let g = processing.createGraphics(400, 400, processing.constants.P2D);
+
+			g.fill(217, 151, 76);
+
+			g.noStroke();
+
+			g.beginShape();
+			g.vertex(50, 80);
+			g.vertex(80, 50);
+
+			g.vertex(245 - 30, 50);
+			g.vertex(245, 80);
+			g.vertex(257, 170);
+			g.vertex(273, 170);
+			g.vertex(312, 153);
+			g.vertex(332, 138);
+			g.vertex(358, 138);
+			g.vertex(371, 152);
+			g.vertex(381, 183);
+			g.vertex(385, 200);
+
+			g.vertex(381, 200 + (200 - 183));
+			g.vertex(371, 200 + (200 - 152));
+			g.vertex(358, 200 + (200 - 138));
+			g.vertex(332, 200 + (200 - 138));
+			g.vertex(312, 200 + (200 - 153));
+			g.vertex(273, 200 + (200 - 170));
+			g.vertex(257, 200 + (200 - 170));
+			g.vertex(245, 320);
+			g.vertex(245 - 30, 350);
+			g.vertex(80, 350);
+			g.vertex(50, 350 - 30);
+			g.vertex(50, 80);
+			g.endShape();
+			g.fill(207, 144, 80);
+			g.beginShape();
+			g.vertex(217, 194);
+			g.vertex(135, 148);
+			g.vertex(64, 80);
+			g.vertex(80, 50);
+
+			g.vertex(245 - 30, 50);
+			g.vertex(245, 80);
+			g.vertex(257, 170);
+			g.vertex(273, 170);
+			g.vertex(312, 153);
+			g.vertex(332, 138);
+			g.vertex(358, 138);
+			g.vertex(371, 152);
+			g.vertex(381, 183);
+			g.vertex(385, 200);
+
+			g.vertex(381, 200 + (200 - 183));
+			g.vertex(371, 200 + (200 - 152));
+			g.vertex(358, 200 + (200 - 138));
+			g.vertex(332, 200 + (200 - 138));
+			g.vertex(312, 200 + (200 - 153));
+			g.vertex(273, 200 + (200 - 170));
+			g.vertex(257, 200 + (200 - 170));
+			g.vertex(245, 320);
+
+			g.endShape();
+
+			g.fill(214, 149, 83);
+			g.beginShape();
+			g.vertex(217, 194 + 100);
+			g.vertex(135, 148 + 100);
+			g.vertex(64, 80 + 100);
+			g.vertex(50, 320);
+			g.vertex(80, 350);
+			g.vertex(213, 350);
+			g.vertex(247, 308);
+			g.endShape();
+
+			g.strokeJoin(processing.constants.BEVEL);
+			g.stroke(115, 75, 34);
+			g.strokeWeight(20);
+			g.noFill();
+			g.beginShape();
+			g.vertex(50, 80);
+			g.vertex(80, 50);
+
+			g.vertex(245 - 30, 50);
+			g.vertex(245, 80);
+			g.vertex(257, 170);
+			g.vertex(273, 170);
+			g.vertex(312, 153);
+			g.vertex(332, 138);
+			g.vertex(358, 138);
+			g.vertex(371, 152);
+			g.vertex(381, 183);
+			g.vertex(385, 200);
+
+			g.vertex(381, 200 + (200 - 183));
+			g.vertex(371, 200 + (200 - 152));
+			g.vertex(358, 200 + (200 - 138));
+			g.vertex(332, 200 + (200 - 138));
+			g.vertex(312, 200 + (200 - 153));
+			g.vertex(273, 200 + (200 - 170));
+			g.vertex(257, 200 + (200 - 170));
+			g.vertex(245, 320);
+			g.vertex(245 - 30, 350);
+			g.vertex(80, 350);
+			g.vertex(50, 350 - 30);
+			g.vertex(50, 80);
+			g.endShape();
+
+			g.fill(0, 50);
+			g.noStroke();
+
+			function cutMark(x, y, scaleAmt, rot) {
+			    g.pushMatrix();
+			    g.translate(x, y);
+			    g.scale(scaleAmt);
+			    g.rotate(rot);
+			    g.beginShape();
+			    g.vertex(-20, -100);
+			    g.vertex(-10, 0);
+			    g.vertex(10, 100);
+			    g.vertex(0, 0);
+			    g.endShape();
+			    g.popMatrix();
+			}
+			cutMark(200, 200, 1, -10 * Math.PI/180);
+			cutMark(152, 168, 0.6,-19 * Math.PI/180);
+			cutMark(143, 234, 1, -25 * Math.PI/180);
+			return g.get();
+		},
+
+		cleaver () {
+
+			let g = processing.createGraphics(600, 600, processing.constants.P2D);
+
+			g.stroke(0);
+			g.strokeWeight(10);
+			g.strokeJoin(processing.constants.BEVEL);
+
+			g.fill(150, 83, 45);
+
+			g.beginShape();
+			g.vertex(382, 141);
+			g.vertex(502, 131);
+			g.vertex(525, 154);
+			g.vertex(525, 162);
+			g.vertex(514, 187);
+			g.vertex(457, 183);
+			g.vertex(386, 186);
+			g.endShape();
+
+			g.noStroke();
+			g.fill(255, 100);
+			g.beginShape();
+
+			g.vertex(443, 145);
+			g.vertex(451, 151);
+			g.vertex(461, 147);
+
+			g.endShape();
+
+			g.beginShape();
+			g.vertex(397, 150);
+			g.vertex(426, 145);
+			g.vertex(445, 153);
+			g.vertex(418, 150);
+			g.vertex(406, 155);
+			g.endShape();
+			g.stroke(0);
+
+			g.fill(92, 51, 26);
+			g.beginShape();
+			g.vertex(347, 134);
+			g.vertex(382, 141);
+			g.vertex(386, 186);
+			g.vertex(353, 199);
+			g.endShape();
+
+			g.beginShape();
+			g.fill(189, 191, 191);
+
+			g.vertex(96, 114);
+			g.vertex(48, 220);
+			g.vertex(62, 242);
+			g.vertex(192, 251);
+			g.vertex(358, 248);
+			g.vertex(347, 134);
+			g.vertex(297, 134);
+			g.vertex(228, 122);
+			g.vertex(136, 102);
+			g.vertex(96, 114);
+			g.endShape();
+
+			g.noStroke();
+			g.fill(227, 227, 227);
+			g.beginShape();
+			g.vertex(115, 148);
+			g.vertex(126, 126);
+			g.vertex(149, 125);
+			g.vertex(154, 127);
+			g.vertex(134, 139);
+			g.vertex(120, 158);
+			g.vertex(111, 160);
+			g.endShape();
+
+			g.beginShape();
+			g.vertex(184, 133);
+			g.vertex(169, 133);
+			g.vertex(167, 143);
+			g.vertex(173, 147);
+			g.vertex(181, 138);
+			g.endShape();
+
+			g.fill(0, 10);
+			g.noStroke();
+
+			g.beginShape();
+
+			g.vertex(96, 114 + 80);
+			g.vertex(48, 220);
+			g.vertex(62, 242);
+			g.vertex(192, 251);
+			g.vertex(358, 248);
+			g.vertex(349, 134 + 65);
+			g.vertex(297, 134 + 76);
+			g.vertex(228, 122 + 68);
+			g.vertex(136, 102 + 95);
+			g.vertex(96, 114 + 80);
+			g.endShape();
+
+			return g.get(42, 96, 489, 161);
+		},
+
+		burner () {
+
+			let g = processing.createGraphics(400, 400, processing.constants.P2D);
+			g.fill(61, 61, 61, 200);
+			g.noStroke();
+			g.rect(69, 76, 261, 251);
+			g.noFill();
+			g.stroke(14, 104, 173);
+			g.strokeWeight(50);
+			g.ellipse(200, 200, 166, 166);
+			g.stroke(14, 104, 173, 100);
+			g.strokeWeight(60);
+			g.ellipse(200, 200, 166, 166);
+
+			g.stroke(0);
+			g.strokeWeight(30);
+			g.strokeJoin(processing.constants.BEVEL);
+
+			g.beginShape();
+			g.vertex(72, 200);
+			g.vertex(67, 84);
+			g.vertex(325, 75);
+			g.vertex(332, 320);
+			g.vertex(77, 328);
+			g.vertex(72, 200);
+			g.endShape();
+
+			g.noStroke();
+			g.fill(0);
+			g.translate(200, 200);
+
+			for (let i = 0; i < 4; i ++) {
+			    g.rotate(Math.PI/2);
+			    g.beginShape();
+			    g.vertex(-10, -116);
+			    g.vertex(-2, -43);
+			    g.vertex(4, -43);
+			    g.vertex(10, -118);
+			    g.endShape();
+			}
+
+			return g.get();
 		},
 	};
 })();

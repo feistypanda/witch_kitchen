@@ -1,7 +1,7 @@
 
 // alright, time for the first ingredient! lets see... eye of newt!
 
-class EyeOfNewt extends Food {
+class BlueJayEgg extends Food {
 	/**
 	 * This is the subclass for the ingredient eyeOfNewt!
 	 * @constructor
@@ -22,21 +22,22 @@ class EyeOfNewt extends Food {
 	*/
 	display (x, y, width = 40, height = 40) {
 		if (this.choppedProgress < 0.5) {
-			processing.fill(255, 100, 0);
+			processing.fill(100, 100, 200);
 			processing.noStroke();
 			processing.ellipse(x, y, width, height);
 		} else if (this.choppedProgress < 1) {
-			processing.fill(255, 100, 0);
+			processing.fill(100, 100, 200);
 			processing.noStroke();
 			processing.arc(x, y + 2, width, height, 0, Math.PI);
 			processing.arc(x, y - 2, width, height, Math.PI, Math.PI * 2);
 		} else {
-			processing.fill(255, 100, 0);
+			processing.fill(100, 100, 200);
 			processing.noStroke();
 			processing.arc(x + 2, y + 2, width, height, 0, Math.PI/2);
 			processing.arc(x - 2, y + 2, width, height, Math.PI/2, Math.PI);
 			processing.arc(x - 2, y - 2, width, height, Math.PI, Math.PI * 1.5);
 			processing.arc(x + 2, y - 2, width, height, Math.PI * 1.5, Math.PI * 2);
 		}
+		
 	} 
 }

@@ -6,21 +6,14 @@ class Food {
 	 * A function for initializing food objects
 	 * @constructor
 	 * 
-	 * @param {integer} x - The x coordinate in the grid that the food is created at
-	 * @param {integer} y - The y coordinate in the grid that the food is created at
-	 * @param {boolean} isHeld - determines weather or not the player is holding this food item
+	 * @param {object} holder - the player, counter, or pot that is holding this food
 	*/
 
-	constructor (x, y, isHeld) {
+	constructor (holder) {
 
-		this.x = x; // coordinate in the grid
-		this.y = y; // coordinate in the grid
+		this.holder = holder;
 
-		this.isHeld = isHeld; // boolean - is the player holding it
-		this.inPot = false; // boolean - is the food item in a pot?
-		this.inPan = false; // boolean - is the food item in a pan?
-
-		this.chopedProgress = 0; // float - how choped/prepared is the raw food item? cooked & prepared items should have this to be 1
+		this.choppedProgress = 0; // float - how choped/prepared is the raw food item? cooked & prepared items should have this to be 1
 		this.cookedProgress = 0; // float - how cooked is this item? should be zero if it isnt prepared yet
 	}
 
@@ -32,11 +25,13 @@ class Food {
 	run () {
 		this.update(); // update the food item
 
-		// if it is in a pot/pan/players hands it will be displayed by the pot/pan/playersHands
-		if (!this.isHeld && !this.inPot && !this.inPan) this.display(); // display the food item
-		
+		// display not necesary cuz something else will be displaying it
 		return this;
-		
+	}
+
+	update () {
+		if (this.holder) this.holder.holding = this;
+	
 	}
 
 	/**

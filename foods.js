@@ -27,6 +27,7 @@ let foods = (() => {
 		 * this function calls the run function of all of the foods in the foods array and removes the foods that have been served or deleted
 		*/
 		run () {
+			
 			for (var i = this.foods.length - 1; i >= 0; i--) {
 				// only run the food if it is not to be removed
 				if (!this.foods[i].remove) {
@@ -41,6 +42,17 @@ let foods = (() => {
 
 				this.foods.splice(i, 1); // if we got here, remove the food from the array
 			}
-		}
+		},
+
+		/**
+		 * @method
+		 * a method to push a food to the array of foods
+		 * @param {obj} food - the food to be pushed
+		*/
+		add (food) {
+
+			this.foods.push(food);
+		},
+
 	};
 })();

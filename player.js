@@ -174,6 +174,82 @@ let player = (() => {
 		},
 
 		/**
+		 * handles the putting of stuff in places
+		*/
+
+		handlePutting () {
+			// find out which coordinates in the grid the mouse is hovering over
+			let xOfSelectedSquare = mouse.x - mouse.x % gridSize;
+			let yOfSelectedSquare = mouse.y - mouse.y % gridSize;
+
+			// the player can only select a tile if its center is less than 1.5 * gridsize away from the center of the tile
+			let canSelect = (() => {
+				let distX = this.boundingBox.x + this.boundingBox.width/2 - (xOfSelectedSquare + gridSize/2);
+				let distY = this.boundingBox.y + this.boundingBox.height/2 - (yOfSelectedSquare + gridSize/2);
+
+				return (distX * distX) + (distY * distY) < (gridSize * 1.5) * (gridSize * 1.5);
+			})();
+
+			let tileSelected = counters.find(xOfSelectedSquare/gridSize, yOfSelectedSquare/gridSize);
+			this.selecting = false; // reset which counter we are selecting
+
+			if (tileSelected) {
+				processing.fill(250, 0, 0, 100); // red; to far
+				
+
+				if (canSelect) {
+					this.selecting = tileSelected;
+					processing.fill(250, 243, 105, 100); // yellow; good
+				}
+
+				processing.noStroke();
+				processing.rect(xOfSelectedSquare, yOfSelectedSquare, gridSize, gridSize);
+			}
+
+			if (click && this.selecting) {
+
+				// boolean
+				let putDown = this.holding && !this.selecting.holding && (!(this.selecting instanceof Burner) || this.holding instanceof Cauldron) && (!(this.selecting instanceof TrashCan) || this.holding instanceof Food);
+
+				// check to see if the counter is empty
+				if (!this.holding && this.selecting.holding) {
+					this.holding = this.selecting.holding;
+					this.selecting.holding = false;
+					this.holding.holder = this;
+				} else if (putDown) {
+					this.selecting.holding = this.holding;
+					this.holding = false;
+					this.selecting.holding.holder = this.selecting;
+				}
+
+				// throwing away cauldron contents
+				if (this.holding instanceof Cauldron && this.selecting instanceof TrashCan) {
+					this.selecting.holding = this.holding.holding;
+					this.holding.holding = false;
+				}
+
+				// putting food in cauldron
+				if (this.selecting.holding instanceof Cauldron) {
+					if (this.holding instanceof Food && !this.selecting.holding.holding && this.holding.choppedProgress >= 1 && this.holding.cookedProgress < 1) {
+						this.selecting.holding.holding = this.holding;
+						this.holding.holder = this.selecting.holding;
+						this.holding = false;
+					}
+				}
+
+				// putting cauldrons on food
+				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Food && !(this.selecting instanceof TrashCan)) {
+					this.holding.holding = this.selecting.holding;
+					this.selecting.holding = this.holding;
+					this.holding.holder = this.selecting;
+					this.holding = false;
+
+				}
+				
+			}
+		},
+
+		/**
 		 * method to update the player
 		 * moving and such
 		*/
@@ -199,47 +275,7 @@ let player = (() => {
 
 			// now to rotate it to face the mouse
 			this.angle = Math.atan2(this.position.y - mouse.y, this.position.x - mouse.x) - Math.PI/2;
-
-			// find out which coordinates in the grid the mouse is hovering over
-			let xOfSelectedSquare = mouse.x - mouse.x % gridSize;
-			let yOfSelectedSquare = mouse.y - mouse.y % gridSize;
-
-			// the player can only select a tile if its center is less than 1.5 * gridsize away from the center of the tile
-			let canSelect = (() => {
-				let distX = this.boundingBox.x + this.boundingBox.width/2 - (xOfSelectedSquare + gridSize/2);
-				let distY = this.boundingBox.y + this.boundingBox.height/2 - (yOfSelectedSquare + gridSize/2);
-
-				return (distX * distX) + (distY * distY) < (gridSize * 1.5) * (gridSize * 1.5);
-			})();
-
-			let tileSelected = counters.find(xOfSelectedSquare/gridSize, yOfSelectedSquare/gridSize);
-			this.selecting = false; // reset which counter we are selecting
-			if (tileSelected) {
-				processing.fill(250, 0, 0, 100); // red; to far
-				
-
-				if (canSelect) {
-					this.selecting = tileSelected;
-					processing.fill(250, 243, 105, 100); // yellow; good
-				}
-
-				processing.noStroke();
-				processing.rect(xOfSelectedSquare, yOfSelectedSquare, gridSize, gridSize);
-			}
-
-			if (click && this.selecting) {
-				if (!this.holding && this.selecting.holding) {
-					this.holding = this.selecting.holding;
-					this.selecting.holding = false;
-					this.holding.holder = this;
-				} else if (this.holding && !this.selecting.holding && (!(this.selecting instanceof Burner) || this.selecting instanceof Cauldron)) {
-					this.selecting.holding = this.holding;
-					this.holding = false;
-					this.selecting.holding.holder = this.selecting;
-				}
-				
-			}
-
+			this.handlePutting();
 		},
 	};
 })();

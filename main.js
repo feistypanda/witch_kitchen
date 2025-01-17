@@ -80,6 +80,7 @@ counters.add(new FoodCrate(BlueJayEgg, 5, 4));
 counters.add(new TrashCan(4, 5));
 counters.add(new CuttingBoard(4, 6));
 counters.add(new Burner(5, 6));
+gameObjects.add(new Cauldron(counters.find(3, 3)));
 
 draw = function () {
 	

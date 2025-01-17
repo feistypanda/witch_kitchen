@@ -9,7 +9,7 @@ let scenes = (() => {
 			processing.image(images.floor, 0, 0);
 			counters.run();
 			player.run();
-			foods.run();
+			gameObjects.run();
 		},
 	};
 

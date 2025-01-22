@@ -73,7 +73,13 @@ let player = (() => {
 		*/
 		display () {
 
-			if (this.holding) this.holding.display(this.position.x + Math.cos(this.angle - Math.PI/2) * 50, this.position.y + Math.sin(this.angle - Math.PI/2) * 50);
+			if (this.holding) {
+				processing.pushMatrix();
+				processing.translate(this.position.x, this.position.y);
+				processing.rotate(this.angle - Math.PI/2);
+				this.holding.display(50, 0);
+				processing.popMatrix();
+			};
 
 			// calculate the image scale if it hasnt already been calculated
 			if (!this.imageScale) {
@@ -165,7 +171,7 @@ let player = (() => {
 				let ph = this.boundingBox.height;
 				let gs = gridSize;
 
-				if (px + pw > cp.x && cp.x + gs > px && py + pw > cp.y && cp.y + gs > py) {
+				if (px + pw > cp.x + 0.1 && cp.x + gs > px + 0.1 && py + pw > cp.y + 0.1 && cp.y + gs > py + 0.1) {
 					found.push(counter);
 				}
 			}
@@ -209,7 +215,12 @@ let player = (() => {
 			if (click && this.selecting) {
 
 				// boolean
-				let putDown = this.holding && !this.selecting.holding && (!(this.selecting instanceof Burner) || this.holding instanceof Cauldron) && (!(this.selecting instanceof TrashCan) || this.holding instanceof Food);
+				let putDown = (
+					this.holding && 
+					!this.selecting.holding && 
+					(!(this.selecting instanceof Burner) || this.holding instanceof Cauldron) && 
+					(!(this.selecting instanceof TrashCan) || this.holding instanceof Food) && 
+					(!(this.selecting instanceof CuttingBoard) || this.holding instanceof Food));
 
 				// check to see if the counter is empty
 				if (!this.holding && this.selecting.holding) {
@@ -238,13 +249,30 @@ let player = (() => {
 				}
 
 				// putting cauldrons on food
-				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Food && !(this.selecting instanceof TrashCan)) {
+				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Food && !(this.selecting instanceof TrashCan) && this.selecting.holding.choppedProgress >= 1 && this.holding.selecting.cookedProgress < 1) {
 					this.holding.holding = this.selecting.holding;
 					this.selecting.holding = this.holding;
 					this.holding.holder = this.selecting;
 					this.holding = false;
 
 				}
+
+				// taking contents of cauldron with bottle
+				if (this.holding instanceof Bottle && this.selecting.holding instanceof Cauldron && this.selecting.holding.holding.cookedProgress >= 1) {
+					this.selecting.holding.holding.holder = this.holding;
+					this.holding.holding.push(this.selecting.holding.holding);
+					this.selecting.holding.holding = false;
+				}
+
+				// putting contents of a cauldron in a bottle
+				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Bottle && this.selecting.holding.holding.length < 3) {
+
+					this.holding.holding.holder = this.selecting.holding;
+					this.selecting.holding.holding.push(this.holding.holding);
+					this.holding.holding = false;
+				}
+
+				// throwing away contents of bottle
 				
 			}
 		},

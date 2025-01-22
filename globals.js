@@ -23,3 +23,16 @@ function easeFunction(x) {
         Math.pow(t, 2) * 1 + 0
     );
 }
+
+let potions = (() => {
+    return {
+        freezing () {return {
+            ingredients: [EyeOfNewt, BlueJayEgg, BlueJayEgg],
+            name: "freezing",
+        }},
+        fire ()     {return {
+            ingredients: [EyeOfNewt, EyeOfNewt, EyeOfNewt],
+            name: "fire",
+        }},
+    }
+})();

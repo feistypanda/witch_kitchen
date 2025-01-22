@@ -8,6 +8,10 @@ with (processingInstance) {
 size(600, 600, P2D);
 frameRate(60);
 
+for (let key of Object.keys(potions)) {
+	potions[key] = potions[key]();
+}
+
 // this object stores functions that call the processing drawing functions from the processing environment so that these functions can be used in different files
 // it also stores the processing constants
 processing = (() => {
@@ -68,25 +72,50 @@ processing = (() => {
 			return arc(...args);
 		},
 
+		color (...args) {
+			return color(...args);
+		},
+
 		constants: PConstants,
 	};
 })();
 
-counters.add(new Counter(3, 3));
-counters.add(new Counter(3, 4));
-counters.add(new Counter(4, 3));
+// counters.add(new Counter(3, 3));
+// counters.add(new Counter(3, 4));
+// counters.add(new Counter(4, 3));
+// counters.add(new FoodCrate(EyeOfNewt, 5, 3));
+// counters.add(new FoodCrate(BlueJayEgg, 5, 4));
+// counters.add(new TrashCan(4, 5));
+// counters.add(new CuttingBoard(4, 6));
+// counters.add(new Counter(4, 8));
+// counters.add(new Burner(5, 6));
+// gameObjects.add(new Cauldron(counters.find(3, 3)));
+// gameObjects.add(new Cauldron(counters.find(4, 3)));
+// gameObjects.add(new Bottle(counters.find(3, 4)));
+counters.add(new TrashCan(0, 3));
+counters.add(new Counter(1, 3));
+counters.add(new Counter(1, 1));
+counters.add(new Counter(2, 1));
+counters.add(new Counter(3, 1));
+counters.add(new Counter(4, 1));
+counters.add(new Counter(4, 5));
+counters.add(new Counter(3, 5));
+counters.add(new Counter(2, 5));
+counters.add(new Counter(2, 3));
+counters.add(new Burner(3, 3));
+counters.add(new CuttingBoard(4, 3));
 counters.add(new FoodCrate(EyeOfNewt, 5, 3));
-counters.add(new FoodCrate(BlueJayEgg, 5, 4));
-counters.add(new TrashCan(4, 5));
-counters.add(new CuttingBoard(4, 6));
-counters.add(new Burner(5, 6));
+counters.add(new FoodCrate(BlueJayEgg, 6, 3));
+
 gameObjects.add(new Cauldron(counters.find(3, 3)));
+gameObjects.add(new Cauldron(counters.find(2, 3)));
+gameObjects.add(new Bottle(counters.find(1, 3)));
 
 draw = function () {
 	
 	[mouse.x, mouse.y] = [mouseX, mouseY];
 
-	deltaTime = 1000/this.__frameRate;
+	deltaTime = min(50, 1000/this.__frameRate);
 
 	// if we are still loading, exit the function
 	if (!load.run()) return;

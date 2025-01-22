@@ -664,5 +664,49 @@ let images = (() => {
 
 			return g.get();
 		},
+
+		cauldron () {
+			let g = processing.createGraphics(400, 400, processing.constants.P2D);
+
+			g.noStroke();
+			g.fill(0);
+
+			g.randomSeed(10);
+
+			g.beginShape();
+			for (let i = 0; i <= 360 * Math.PI/180; i += 30 * Math.PI/180) {
+			    g.vertex(200 + g.cos(i) * 150 + g.random() * 5, 200 + g.sin(i) * 150 + g.random() * 5);
+			}   
+			g.endShape(processing.constants.CLOSE);
+
+			g.fill(10);
+			g.beginShape();
+			for (let i = 0; i <= 360 * Math.PI/180; i += 30 * Math.PI/180) {
+			    g.vertex(200 + g.cos(i) * 120 + g.random() * 5, 200 + g.sin(i) * 120 + g.random() * 5);
+			}   
+			g.endShape(processing.constants.CLOSE);
+			g.fill(20);
+			g.beginShape();
+			for (let i = 0; i <= 360 * Math.PI/180; i += 30 * Math.PI/180) {
+			    g.vertex(200 + g.cos(i) * 100 + g.random() * 5, 200 + g.sin(i) * 100 + g.random() * 5);
+			}   
+			g.endShape(processing.constants.CLOSE);
+
+			g.fill(0);
+			g.beginShape();
+			g.vertex(74, 180);
+			g.vertex(15, 195);
+			g.vertex(23, 214);
+			g.vertex(64, 223);
+			g.endShape();
+
+			g.beginShape();
+			g.vertex(339, 180);
+			g.vertex(379, 195);
+			g.vertex(376, 214);
+			g.vertex(342, 223);
+			g.endShape();
+			return g.get(14, 14, 369, 369);
+		},
 	};
 })();

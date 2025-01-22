@@ -12,6 +12,9 @@ class BlueJayEgg extends Food {
 
 	constructor (...args) {
 		super(...args);
+
+		// color for displaying in bottles
+		this.mainCookedColor = processing.color(10, 10, 240);
 	}
 
 	/**
@@ -21,23 +24,41 @@ class BlueJayEgg extends Food {
 	 * @param {number} width, height - the dimensions
 	*/
 	display (x, y, width = 40, height = 40) {
-		if (this.choppedProgress < 0.5) {
-			processing.fill(100, 100, 200);
-			processing.noStroke();
-			processing.ellipse(x, y, width, height);
-		} else if (this.choppedProgress < 1) {
-			processing.fill(100, 100, 200);
-			processing.noStroke();
-			processing.arc(x, y + 2, width, height, 0, Math.PI);
-			processing.arc(x, y - 2, width, height, Math.PI, Math.PI * 2);
-		} else {
-			processing.fill(100, 100, 200);
+		if (this.cookedProgress <= 0) {
+			if (this.choppedProgress < 0.5) {
+				processing.fill(100, 100, 200);
+				processing.noStroke();
+				processing.ellipse(x, y, width, height);
+			} else if (this.choppedProgress < 1) {
+				processing.fill(100, 100, 200);
+				processing.noStroke();
+				processing.arc(x, y + 2, width, height, 0, Math.PI);
+				processing.arc(x, y - 2, width, height, Math.PI, Math.PI * 2);
+			} else {
+				processing.fill(100, 100, 200);
+				processing.noStroke();
+				processing.arc(x + 2, y + 2, width, height, 0, Math.PI/2);
+				processing.arc(x - 2, y + 2, width, height, Math.PI/2, Math.PI);
+				processing.arc(x - 2, y - 2, width, height, Math.PI, Math.PI * 1.5);
+				processing.arc(x + 2, y - 2, width, height, Math.PI * 1.5, Math.PI * 2);
+			}
+		} else if (this.cookedProgress <= 0.5) {
+			processing.fill(50, 50, 200);
 			processing.noStroke();
 			processing.arc(x + 2, y + 2, width, height, 0, Math.PI/2);
 			processing.arc(x - 2, y + 2, width, height, Math.PI/2, Math.PI);
 			processing.arc(x - 2, y - 2, width, height, Math.PI, Math.PI * 1.5);
 			processing.arc(x + 2, y - 2, width, height, Math.PI * 1.5, Math.PI * 2);
+		} else if (this.cookedProgress < 1) {
+			processing.fill(50, 50, 200);
+			processing.noStroke();
+			processing.ellipse(x, y, width, height);
+		} else {
+			processing.fill(10, 10, 240);
+			processing.noStroke();
+			processing.ellipse(x, y, width, height);
 		}
+		
 		
 	} 
 }

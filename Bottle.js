@@ -34,19 +34,23 @@ class Bottle {
 	 * updates the potion currently inside of the bottle
 	*/
 	updateIngredients () {
-		for (let potion of potions) {
-			let ingredients = [...potion.ingredients];
+		for (let potion of Object.keys(potions)) {
+			let ingredients = [...potions[potion].ingredients];
 			for (let i in this.holding) {
 				for (let j of ingredients) {
-					if (this.holding[i] instanceof ingredients[i]) {
-						ingredients.splice(i, 1);
+					if (this.holding[i] instanceof j) {
+						console.log(i);
+						ingredients.splice(ingredients.indexOf(j), 1);
 						break;
 					}
 				}
 			}
 
+			console.log(ingredients);
+
 			if (ingredients.length <= 0) {
-				this.potionType = potion.name;
+				this.potionType = potions[potion].name;
+				console.log(this.potionType);
 				break;
 			}
 		}
@@ -55,6 +59,12 @@ class Bottle {
 	display (x, y, width = 50, height = 50) {
 
 		this.g.background(0, 0);
+
+		if (this.potionType) {
+			this.g.noStroke();
+			this.g.fill(potions[this.potionType].color);
+			this.g.ellipse(200, 239, 300, 300);
+		}
 
 		// the ingredients in the potion (incomplete potion)
 		if (this.holding.length < 3 || !this.potionType) {

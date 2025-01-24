@@ -202,7 +202,7 @@ let player = (() => {
 			if (tileSelected) {
 				processing.fill(250, 0, 0, 100); // red; to far
 				
-
+				// if the tile we are trying to select is close enough
 				if (canSelect) {
 					this.selecting = tileSelected;
 					processing.fill(250, 243, 105, 100); // yellow; good
@@ -214,63 +214,85 @@ let player = (() => {
 
 			if (click && this.selecting) {
 
-				// boolean
+				// boolean to see if we are putting the stuff from our hand onto the counter
+				// no particular reason its a variable
 				let putDown = (
 					this.holding && 
 					!this.selecting.holding && 
+					(!(this.holding instanceof Bottle) || !this.selecting.holding) &&
 					(!(this.selecting instanceof Burner) || this.holding instanceof Cauldron) && 
 					(!(this.selecting instanceof TrashCan) || this.holding instanceof Food) && 
 					(!(this.selecting instanceof CuttingBoard) || this.holding instanceof Food));
 
 				// check to see if the counter is empty
 				if (!this.holding && this.selecting.holding) {
+
+					// picking stuff up from the counter
 					this.holding = this.selecting.holding;
 					this.selecting.holding = false;
 					this.holding.holder = this;
+
 				} else if (putDown) {
+
 					this.selecting.holding = this.holding;
 					this.holding = false;
 					this.selecting.holding.holder = this.selecting;
-				}
+
+				} 
 
 				// throwing away cauldron contents
 				if (this.holding instanceof Cauldron && this.selecting instanceof TrashCan) {
+
 					this.selecting.holding = this.holding.holding;
 					this.holding.holding = false;
-				}
+
+				} else
 
 				// putting food in cauldron
-				if (this.selecting.holding instanceof Cauldron) {
-					if (this.holding instanceof Food && !this.selecting.holding.holding && this.holding.choppedProgress >= 1 && this.holding.cookedProgress < 1) {
-						this.selecting.holding.holding = this.holding;
-						this.holding.holder = this.selecting.holding;
-						this.holding = false;
-					}
-				}
+				if (this.selecting.holding instanceof Cauldron && this.holding instanceof Food && !this.selecting.holding.holding && this.holding.choppedProgress >= 1 && this.holding.cookedProgress < 1) {
+					
+					this.selecting.holding.holding = this.holding;
+					this.holding.holder = this.selecting.holding;
+					this.holding = false;
+			
+				} else
 
 				// putting cauldrons on food
-				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Food && !(this.selecting instanceof TrashCan) && this.selecting.holding.choppedProgress >= 1 && this.holding.selecting.cookedProgress < 1) {
+				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Food && !(this.selecting instanceof TrashCan) && !(this.selecting instanceof FoodCrate) && this.selecting.holding.choppedProgress >= 1 && this.selecting.holding.cookedProgress < 1) {
+
 					this.holding.holding = this.selecting.holding;
+					this.selecting.holding.holder = this.holding;
 					this.selecting.holding = this.holding;
 					this.holding.holder = this.selecting;
-					this.holding = false;
+					this.holding = false; // the cauldron is no longer in our hands
 
-				}
+				} else
 
 				// taking contents of cauldron with bottle
 				if (this.holding instanceof Bottle && this.selecting.holding instanceof Cauldron && this.selecting.holding.holding.cookedProgress >= 1) {
-					this.selecting.holding.holding.holder = this.holding;
-					this.holding.holding.push(this.selecting.holding.holding);
-					this.selecting.holding.holding = false;
-				}
+
+					this.selecting.holding.holding.holder = this.holding; // lol this is not cursed at all. making sure that the food in the cauldron knows that the bottle is now holding it
+					this.holding.holding.push(this.selecting.holding.holding); // adding the ingredient to the bottle
+					this.selecting.holding.holding = false; // removing the ingredient from the bottle
+
+					// make the potion bottle check to see if its 3 ingredients make a potion
+					if (this.holding.holding.length === 3) {
+						this.holding.updateIngredients();
+					}
+				} else
 
 				// putting contents of a cauldron in a bottle
 				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Bottle && this.selecting.holding.holding.length < 3) {
 
-					this.holding.holding.holder = this.selecting.holding;
-					this.selecting.holding.holding.push(this.holding.holding);
-					this.holding.holding = false;
-				}
+					this.holding.holding.holder = this.selecting.holding; // make sure that the food knows that the bottle is now holding it
+					this.selecting.holding.holding.push(this.holding.holding); // add the food to the bottle
+					this.holding.holding = false; // rem the food from the cauldron
+
+					// make the potion bottle check to see if its 3 ingredients make a potion
+					if (this.selecting.holding.holding.length === 3) {
+						this.selecting.holding.updateIngredients();
+					}
+				} 
 
 				// throwing away contents of bottle
 				

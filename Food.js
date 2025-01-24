@@ -13,8 +13,8 @@ class Food {
 
 		this.holder = holder;
 
-		this.choppedProgress = 1; // float - how choped/prepared is the raw food item? cooked & prepared items should have this to be 1
-		this.cookedProgress = 0.99; // float - how cooked is this item? should be zero if it isnt prepared yet
+		this.choppedProgress = 0; // float - how choped/prepared is the raw food item? cooked & prepared items should have this to be 1
+		this.cookedProgress = 0; // float - how cooked is this item? should be zero if it isnt prepared yet
 	}
 
 	/**

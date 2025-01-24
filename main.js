@@ -8,10 +8,6 @@ with (processingInstance) {
 size(600, 600, P2D);
 frameRate(60);
 
-for (let key of Object.keys(potions)) {
-	potions[key] = potions[key]();
-}
-
 // this object stores functions that call the processing drawing functions from the processing environment so that these functions can be used in different files
 // it also stores the processing constants
 processing = (() => {
@@ -80,18 +76,12 @@ processing = (() => {
 	};
 })();
 
-// counters.add(new Counter(3, 3));
-// counters.add(new Counter(3, 4));
-// counters.add(new Counter(4, 3));
-// counters.add(new FoodCrate(EyeOfNewt, 5, 3));
-// counters.add(new FoodCrate(BlueJayEgg, 5, 4));
-// counters.add(new TrashCan(4, 5));
-// counters.add(new CuttingBoard(4, 6));
-// counters.add(new Counter(4, 8));
-// counters.add(new Burner(5, 6));
-// gameObjects.add(new Cauldron(counters.find(3, 3)));
-// gameObjects.add(new Cauldron(counters.find(4, 3)));
-// gameObjects.add(new Bottle(counters.find(3, 4)));
+// load all of the potions
+for (let key of Object.keys(potions)) {
+	potions[key] = potions[key]();
+}
+
+// the level
 counters.add(new TrashCan(0, 3));
 counters.add(new Counter(1, 3));
 counters.add(new Counter(1, 1));
@@ -109,7 +99,7 @@ counters.add(new FoodCrate(BlueJayEgg, 6, 3));
 
 gameObjects.add(new Cauldron(counters.find(3, 3)));
 gameObjects.add(new Cauldron(counters.find(2, 3)));
-gameObjects.add(new Bottle(counters.find(1, 3)));
+gameObjects.add(new Bottle(counters.find(4, 1)));
 
 draw = function () {
 	

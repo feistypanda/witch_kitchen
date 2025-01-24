@@ -29,10 +29,12 @@ let potions = (() => {
         freezing () {return {
             ingredients: [EyeOfNewt, BlueJayEgg, BlueJayEgg],
             name: "freezing",
+            color: processing.color(95, 225, 230),
         }},
         fire ()     {return {
             ingredients: [EyeOfNewt, EyeOfNewt, EyeOfNewt],
             name: "fire",
+            color: processing.color(242, 155, 24),
         }},
     }
 })();

@@ -39,18 +39,14 @@ class Bottle {
 			for (let i in this.holding) {
 				for (let j of ingredients) {
 					if (this.holding[i] instanceof j) {
-						console.log(i);
 						ingredients.splice(ingredients.indexOf(j), 1);
 						break;
 					}
 				}
 			}
 
-			console.log(ingredients);
-
 			if (ingredients.length <= 0) {
 				this.potionType = potions[potion].name;
-				console.log(this.potionType);
 				break;
 			}
 		}

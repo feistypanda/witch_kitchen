@@ -36,5 +36,15 @@ let potions = (() => {
             name: "fire",
             color: processing.color(242, 155, 24),
         }},
+        idk1 ()     {return {
+            ingredients: [EyeOfNewt, EyeOfNewt, BlueJayEgg],
+            name: "fire",
+            color: processing.color(169, 209, 58),
+        }},
+        idk2 ()     {return {
+            ingredients: [BlueJayEgg, BlueJayEgg, BlueJayEgg],
+            name: "fire",
+            color: processing.color(62, 11, 92),
+        }},
     }
 })();

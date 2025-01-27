@@ -708,5 +708,51 @@ let images = (() => {
 			g.endShape();
 			return g.get(14, 14, 369, 369);
 		},
+
+		seller () {
+
+			let g = processing.createGraphics(400, 400, processing.constants.P2D);
+
+			g.noStroke();
+			g.fill(200);
+			g.rect(55, 100, 300, 200, 20);
+			g.fill(240);
+			g.rect(55, 150, 300, 100);
+			g.noFill();
+			g.stroke(20);
+			g.strokeWeight(20);
+			g.pushMatrix();
+
+			for (let i = 0; i < 4; i ++) {
+			    
+			    g.beginShape();
+			    g.vertex(127, 142);
+			    g.vertex(100, 200);
+			    g.vertex(127, 258);
+			    g.endShape();
+			    g.translate(58, 0);
+			}
+			g.popMatrix();
+
+			return g.get();
+		},
+
+		exclamation () {
+			let g = processing.createGraphics(400, 400, processing.constants.P2D);
+			g.noStroke();
+			g.fill(217, 39, 39);
+			g.quad(150, 84, 250, 84,  230, 234, 170, 234);
+			g.ellipse(200, 300, 70, 70);
+			return g.get();
+		},
+
+		return () {
+			let g = processing.createGraphics(400, 400, processing.constants.P2D);
+			g.fill(200);
+			g.ellipse(200, 200, 300, 300);
+			g.fill(240);
+			g.ellipse(200, 200, 270, 270);
+			return g.get();
+		},
 	};
 })();

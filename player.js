@@ -3,9 +3,11 @@
 
 let player = (() => {
 	return {
-		position: vector.new(0, 0), // the position of the player
+		position: vector.new(120, 120), // the position of the player
 
 		imageDimensions: vector.new(70, 70), // the dimensions of the player 
+
+		money: 0,
 
 		// used for collisions
 		boundingBox : {
@@ -57,6 +59,8 @@ let player = (() => {
 		imageOffset: vector.new(-155, -130),
 
 		selecting: false, // the counter that is being selected
+
+		dashDelay: -1000,
 
 		/** 
 		 * method that handles drawing + updating 
@@ -222,10 +226,11 @@ let player = (() => {
 					(!(this.holding instanceof Bottle) || !this.selecting.holding) &&
 					(!(this.selecting instanceof Burner) || this.holding instanceof Cauldron) && 
 					(!(this.selecting instanceof TrashCan) || this.holding instanceof Food) && 
-					(!(this.selecting instanceof CuttingBoard) || this.holding instanceof Food));
+					(!(this.selecting instanceof CuttingBoard) || this.holding instanceof Food))&&
+					(!(this.selecting instanceof Seller));
 
 				// check to see if the counter is empty
-				if (!this.holding && this.selecting.holding) {
+				if (!this.holding && this.selecting.holding && !(this.selecting instanceof BottleReturn)) {
 
 					// picking stuff up from the counter
 					this.holding = this.selecting.holding;
@@ -282,7 +287,7 @@ let player = (() => {
 				} else
 
 				// putting contents of a cauldron in a bottle
-				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Bottle && this.selecting.holding.holding.length < 3) {
+				if (this.holding instanceof Cauldron && this.selecting.holding instanceof Bottle && this.selecting.holding.holding.length < 3 && this.holding.holding.cookedProgress >= 1) {
 
 					this.holding.holding.holder = this.selecting.holding; // make sure that the food knows that the bottle is now holding it
 					this.selecting.holding.holding.push(this.holding.holding); // add the food to the bottle
@@ -292,9 +297,31 @@ let player = (() => {
 					if (this.selecting.holding.holding.length === 3) {
 						this.selecting.holding.updateIngredients();
 					}
-				} 
+				} else
+
+				// put potion on seller thing
+				if (this.selecting instanceof Seller && this.holding instanceof Bottle && this.holding.potionType) {
+					this.selecting.holding = this.holding;
+					this.holding.holder = this.selecting;
+					this.holding = false;
+				} else
 
 				// throwing away contents of bottle
+				if (this.selecting instanceof TrashCan && this.holding instanceof Bottle) {
+					for (let i = this.holding.holding.length - 1; i >= 0; i --) {
+						this.holding.holding[i].holder = this.selecting;
+						this.holding.holding.splice(i, 1);
+						this.holding.potionType = false;
+					}
+				} else
+
+				// picking up bottles from bottle return
+				if (this.selecting instanceof BottleReturn && !this.holding && this.selecting.bottleCount > 0) {
+					this.selecting.bottleCount --;
+					this.selecting.holding.holder = this;
+					this.holding = this.selecting.holding;
+					this.selecting.holding = false;
+				}
 				
 			}
 		},
@@ -305,15 +332,22 @@ let player = (() => {
 		*/
 		update () {
 
+			this.dashDelay -= deltaTime;
+
 			let velocity = vector.new(0, 0);
 
 			let movementSpeed = this.speed * (deltaTime/(1000/60));
+
+			if (this.dashDelay >= 0) movementSpeed *= (4 - (100 - this.dashDelay)/100);
 
 			// movement
 			if (keys.w) velocity.y -= movementSpeed;
 			if (keys.s) velocity.y += movementSpeed;
 			if (keys.a) velocity.x -= movementSpeed;
 			if (keys.d) velocity.x += movementSpeed;
+
+			// dashing
+			if (keys[" "] && this.dashDelay <= -500) this.dashDelay = 100;
 
 			// make it go the same speed, even on diagonals
 			let speed = vector.mag(velocity); // how fast we are actually going

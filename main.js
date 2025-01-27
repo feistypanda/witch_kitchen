@@ -12,6 +12,10 @@ frameRate(60);
 // it also stores the processing constants
 processing = (() => {
 	return {
+		background (...args) {
+			return background(...args);
+		},
+
 		fill (...args) {
 			return fill(...args);
 		},
@@ -72,9 +76,19 @@ processing = (() => {
 			return color(...args);
 		},
 
+		createFont (...args) {
+			return createFont(...args);
+		},
+
 		constants: PConstants,
 	};
 })();
+
+var SIGNIKA = createFont("Signika");
+
+for (let i in Object.keys(scenes.scenes)) {
+	scenes.scenes[Object.keys(scenes.scenes)[i]] = scenes.scenes[Object.keys(scenes.scenes)[i]]();
+}
 
 // load all of the potions
 for (let key of Object.keys(potions)) {
@@ -82,30 +96,51 @@ for (let key of Object.keys(potions)) {
 }
 
 // the level
-counters.add(new TrashCan(0, 3));
-counters.add(new Counter(1, 3));
-counters.add(new Counter(1, 1));
-counters.add(new Counter(2, 1));
-counters.add(new Counter(3, 1));
-counters.add(new Counter(4, 1));
-counters.add(new Counter(4, 5));
-counters.add(new Counter(3, 5));
-counters.add(new Counter(2, 5));
-counters.add(new Counter(2, 3));
-counters.add(new Burner(3, 3));
-counters.add(new CuttingBoard(4, 3));
-counters.add(new FoodCrate(EyeOfNewt, 5, 3));
-counters.add(new FoodCrate(BlueJayEgg, 6, 3));
 
-gameObjects.add(new Cauldron(counters.find(3, 3)));
-gameObjects.add(new Cauldron(counters.find(2, 3)));
-gameObjects.add(new Bottle(counters.find(4, 1)));
+counters.add(new Burner(4, 4));
+counters.add(new Burner(4, 5));
+counters.add(new Burner(5, 4));
+counters.add(new Burner(5, 5));
+
+counters.add(new FoodCrate(EyeOfNewt, 4, 0));
+counters.add(new FoodCrate(BlueJayEgg, 5, 0));
+
+counters.add(new BottleReturn(9, 4));
+counters.add(new Seller(9, 5, PI, counters.find(9, 4)));
+counters.add(new CuttingBoard(0, 4));
+counters.add(new CuttingBoard(0, 5));
+counters.add(new CuttingBoard(0, 3));
+counters.add(new TrashCan(3, 0));
+for (let i = 0; i < 8; i ++) {
+	if (i !== 4 && i !== 5 && i !== 3) counters.add(new Counter(0, i));
+}
+for (let i = 1; i < 10; i ++) {
+	counters.add(new Counter(i, 7));
+}
+counters.add(new Counter(2, 0));
+counters.add(new Counter(1, 0));
+counters.add(new Counter(9, 6));
+counters.add(new Counter(9, 3));
+counters.add(new Counter(9, 2));
+counters.add(new Counter(9, 1));
+counters.add(new Counter(9, 0));
+counters.add(new Counter(8, 0));
+counters.add(new Counter(7, 0));
+counters.add(new Counter(6, 0));
+
+gameObjects.add(new Cauldron(counters.find(4, 5)));
+gameObjects.add(new Cauldron(counters.find(5, 5)));
+gameObjects.add(new Cauldron(counters.find(5, 4)));
+gameObjects.add(new Cauldron(counters.find(4, 4)));
+gameObjects.add(new Bottle(counters.find(4, 7)));
+gameObjects.add(new Bottle(counters.find(5, 7)));
+
 
 draw = function () {
 	
 	[mouse.x, mouse.y] = [mouseX, mouseY];
 
-	deltaTime = min(50, 1000/this.__frameRate);
+	deltaTime = lerp (deltaTime, min(50, 1000/this.__frameRate), 0.7);
 
 	// if we are still loading, exit the function
 	if (!load.run()) return;
